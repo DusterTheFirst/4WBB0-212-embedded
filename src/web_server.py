@@ -18,19 +18,22 @@ async def serve_client(reader: asyncio.StreamReader, writer: asyncio.StreamWrite
     print(reader.get_extra_info("peername"), "http", http)
 
     if method == "GET":
-        if url == "/api/events":
+        if url == "/api/health":
+            writer.write(http_response("text/plain"))
+            writer.write("OK")
+        elif url == "/api/events":
             writer.write(http_response("text/event-stream"))
             await writer.drain()
             await events.handle_events(writer, channel.create_receiver())
         else:
             writer.write(http_response("text/plain", status=(404, "Not Found")))
             writer.write("Not Found")
-            await writer.drain()
     else:
         writer.write(http_response("text/plain", status=(405, "Method Not Allowed")))
         writer.write("Method Not Allowed")
-        await writer.drain()
 
+    await writer.drain()
+    await writer.wait_closed()
     print(reader.get_extra_info("peername"), method, url, "Client disconnected")
 
 def http_response(content_type: str, status: tuple[int, str] = (200, "OK")):

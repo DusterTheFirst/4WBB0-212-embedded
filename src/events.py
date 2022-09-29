@@ -19,5 +19,5 @@ async def handle_events(writer: asyncio.StreamWriter, receiver: broadcast_receiv
             writer.write("\n")
             await writer.drain()
         except OSError as e:
-            print(e)
+            print(writer.get_extra_info("peername"), "handle events", e)
             break

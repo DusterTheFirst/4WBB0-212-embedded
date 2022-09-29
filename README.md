@@ -27,4 +27,4 @@ run `just help` for an overview of the available build commands.
 
 ### REST
 
--   GET `/api/ok` -> `"OK"`
+-   GET `/api/health` -> `"OK"`

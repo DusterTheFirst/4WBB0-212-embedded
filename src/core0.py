@@ -15,7 +15,6 @@ async def main(channel: broadcast_channel.BroadcastChannel):
     
     while True:
         onboard.on()
-        print("web server running...")
-        await asyncio.sleep(0.25)
+        await asyncio.sleep(1)
         onboard.off()
-        await asyncio.sleep(5)
+        await asyncio.sleep(2)
