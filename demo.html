@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Event Stream / Control Demo</title>
+
+        <script src="demo.js" defer></script>
+    </head>
+    <body>
+        <h1>Events</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Event</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody id="new-events">
+            </tbody>
+        </table>
+
+        <template id="event-template">
+            <tr>
+                <td>
+                    <slot name="timestamp">N/A</slot>
+                </td>
+                <td>
+                    <slot name="event">N/A</slot>
+                </td>
+                <td>
+                    <slot name="data">N/A</slot>
+                </td>
+            </tr>
+        </template>
+    </body>
+</html>
