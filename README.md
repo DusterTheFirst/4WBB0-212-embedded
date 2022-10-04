@@ -20,8 +20,8 @@ run `just help` for an overview of the available build commands.
         interface SystemStats {
             /** RP2040 temperature */
             temperature: number;
-            /** System voltage */
-            v_sys: number;
+            /** Timestamp */
+            time: number;
         }
         ```
 

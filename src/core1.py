@@ -20,7 +20,7 @@ def main(channel: broadcast_channel.BroadcastChannel):
         message = {
             "event": "system",
             "data": {
-                # "v_sys": v_sys,
+                "time": time.time(),
                 "temperature": temperature
             }
         }

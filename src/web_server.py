@@ -37,5 +37,11 @@ async def serve_client(reader: asyncio.StreamReader, writer: asyncio.StreamWrite
     print(reader.get_extra_info("peername"), method, url, "Client disconnected")
 
 def http_response(content_type: str, status: tuple[int, str] = (200, "OK")):
-    return f"HTTP/1.0 {status[0]} {status[1]}\r\nContent-type: {content_type}\r\n\r\n"
+    headers = [
+        ("Content-Type", content_type),
+        ("Access-Control-Allow-Origin", "*")
+    ]
 
+    headers = "\r\n".join(map(lambda header: f"{header[0]}: {header[1]}", headers))
+
+    return f"HTTP/1.0 {status[0]} {status[1]}\r\n{headers}\r\n\r\n"

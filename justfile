@@ -15,6 +15,8 @@ upload opt = "0": (build opt)
 # build the code with optimization level opt (default = 0)
 build opt = "0":
     #!/usr/bin/env sh
+    set -euo pipefail
+
     mkdir -p build
     for file in `find src -type f -name "*.py"`; do
         outfile="build/$(echo $file | sed s/\.py/\.mpy/)"
@@ -26,6 +28,8 @@ build opt = "0":
 # clean the local build files
 clean:
     #!/usr/bin/env sh
+    set -euo pipefail
+
     if [ -e build ]; then
         rm -r build
         echo "cleaned"
