@@ -12,19 +12,9 @@ run `just help` for an overview of the available build commands.
 
 ### Event Source
 
--   GET `/api/events` -> `text/event-stream`
-
-    -   Event `system`
-
-        ```ts
-        interface SystemStats {
-            /** RP2040 temperature */
-            temperature: number;
-            /** Timestamp */
-            time: number;
-        }
-        ```
+-   GET `/api/events` -> `text/event-stream` (See `types.d.ts`)
 
 ### REST
 
 -   GET `/api/health` -> `"OK"`
+-   GET `/api/toggle_test` -> `"OK"`

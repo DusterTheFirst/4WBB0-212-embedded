@@ -6,9 +6,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Event Stream / Control Demo</title>
 
-        <script src="demo.js" defer></script>
+        <script src="demo.js" defer type="module"></script>
     </head>
     <body>
+        <h1>Connection</h1>
+        <p>
+            Connection state: <slot id="connection_state">Unknown</slot>
+            <button id="reconnect">
+                Reconnect
+            </button>
+        </p>
+
+        <h1>Commands</h1>
+        <button id="toggle_test">
+            Toggle Test
+        </button>
+
         <h1>Events</h1>
         <table>
             <thead>

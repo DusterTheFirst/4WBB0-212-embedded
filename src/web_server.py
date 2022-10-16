@@ -2,6 +2,8 @@ import src.broadcast.channel as broadcast_channel
 import src.events as events
 import uasyncio as asyncio
 
+test = False
+
 async def serve_client(reader: asyncio.StreamReader, writer: asyncio.StreamWriter, channel: broadcast_channel.BroadcastChannel) -> None:
     print(reader.get_extra_info("peername"), "Client connected")
 
@@ -25,6 +27,17 @@ async def serve_client(reader: asyncio.StreamReader, writer: asyncio.StreamWrite
             writer.write(http_response("text/event-stream"))
             await writer.drain()
             await events.handle_events(writer, channel.create_receiver())
+        elif url == "/api/toggle_test":
+            writer.write(http_response("text/plain"))
+            writer.write("OK")
+            global test
+            test = not test
+            channel.broadcast({
+                "event": "test",
+                "data": {
+                    "enabled": test,
+                }
+            })
         else:
             writer.write(http_response("text/plain", status=(404, "Not Found")))
             writer.write("Not Found")
