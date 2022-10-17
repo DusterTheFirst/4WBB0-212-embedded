@@ -1,15 +1,22 @@
 import machine
+import micropython
 import time
 import src.broadcast.channel as broadcast_channel
 
 conversion_factor = 3.3 / (65535)
 
+
 def main(channel: broadcast_channel.BroadcastChannel):
     # v_sys_adc = machine.ADC(machine.Pin(29, machine.Pin.IN))
     temperature_adc = machine.ADC(4)
 
+
+    # time.sleep(10000)
+
     while True:
-        time.sleep(10)
+        time.sleep_ms(1000)
+
+        
 
         # GPIO25
         # v_sys = v_sys_adc.read_u16() * conversion_factor * 3
@@ -26,4 +33,5 @@ def main(channel: broadcast_channel.BroadcastChannel):
         }
 
         print(message)
+        # micropython.mem_info()
         channel.broadcast(message)

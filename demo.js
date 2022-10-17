@@ -5,18 +5,18 @@ document.getElementById("reconnect").addEventListener("click", () => {
 });
 
 const button = /** @type {HTMLButtonElement}*/ (
-    document.getElementById("toggle_test")
+    document.getElementById("toggle_solenoid")
 );
 button.addEventListener("click", async () => {
     button.disabled = true;
 
-    let response = await fetch("http://192.168.4.1:80/api/toggle_test");
+    let response = await fetch("http://192.168.4.1:80/api/toggle_solenoid");
 
     if (response.ok) {
-        console.log("toggle_test success");
+        console.log("toggle_solenoid success");
     } else {
         console.warn(
-            "toggle_test failure",
+            "toggle_solenoid failure",
             response.status,
             response.statusText
         );

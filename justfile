@@ -11,6 +11,7 @@ run opt = "0": (upload opt)
 # build and upload the code with optimization level opt (default = 0)
 upload opt = "0": (build opt)
     cd build && mpremote fs cp -r . :
+    mpremote fs cp main.py :
 
 # build the code with optimization level opt (default = 0)
 build opt = "0":

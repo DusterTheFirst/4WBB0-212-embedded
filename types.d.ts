@@ -7,7 +7,7 @@ declare interface EventTypes {
         /** Timestamp */
         time: number;
     };
-    test: {
-        enabled: boolean;
+    solenoid: {
+        closed: boolean;
     };
 }

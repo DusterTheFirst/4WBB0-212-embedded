@@ -18,8 +18,8 @@
         </p>
 
         <h1>Commands</h1>
-        <button id="toggle_test">
-            Toggle Test
+        <button id="toggle_solenoid">
+            Toggle Solenoid
         </button>
 
         <h1>Events</h1>
@@ -34,19 +34,5 @@
             <tbody id="new-events">
             </tbody>
         </table>
-
-        <template id="event-template">
-            <tr>
-                <td>
-                    <slot name="timestamp">N/A</slot>
-                </td>
-                <td>
-                    <slot name="event">N/A</slot>
-                </td>
-                <td>
-                    <pre><slot name="data">N/A</slot></pre>
-                </td>
-            </tr>
-        </template>
     </body>
 </html>

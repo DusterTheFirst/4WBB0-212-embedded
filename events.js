@@ -1,7 +1,3 @@
-const event_template = /** @type {HTMLTemplateElement} */ (
-    document.getElementById("event-template")
-);
-
 const new_events = /** @type {HTMLTableSectionElement} */ (
     document.getElementById("new-events")
 );
@@ -13,27 +9,18 @@ const connection_state = /** @type {HTMLSlotElement} */ (
  * @template {keyof EventTypes} E
  * @param {E} event
  * @param {EventData<E>} data
- *
- * @returns {HTMLTableRowElement}
  */
 function create_event_row(event, data) {
-    const event_row = /** @type {HTMLTableRowElement} */ (
-        event_template.content.firstElementChild.cloneNode(true)
-    );
+    const event_row = new_events.insertRow(0);
 
-    /** @type {HTMLSlotElement} */
-    const timestamp_element = event_row.querySelector("slot[name=timestamp]");
+    const timestamp_element = event_row.insertCell(0);
     timestamp_element.innerText = new Date().toLocaleString();
 
-    /** @type {HTMLSlotElement} */
-    const event_element = event_row.querySelector("slot[name=event]");
+    const event_element = event_row.insertCell(1);
     event_element.innerText = event;
 
-    /** @type {HTMLSlotElement} */
-    const data_element = event_row.querySelector("slot[name=data]");
+    const data_element = event_row.insertCell(2);
     data_element.innerText = JSON.stringify(data);
-
-    return event_row;
 }
 
 /** @type {EventSource} */
@@ -59,8 +46,8 @@ export function establish_connection() {
     event_source.addEventListener("system", (event) =>
         system_handler(event_source, event)
     );
-    event_source.addEventListener("test", (event) =>
-        test_handler(event_source, event)
+    event_source.addEventListener("solenoid", (event) =>
+        solenoid_handler(event_source, event)
     );
 }
 
@@ -113,32 +100,32 @@ function system_handler(event_source, event) {
 
     console.info("system", data);
 
-    new_events.appendChild(create_event_row("system", data));
+    create_event_row("system", data);
 }
 
 /**
  * @param {MessageEvent<string>} event
  * @param {EventSource} event_source
  */
-function test_handler(event_source, event) {
-    /** @type {EventData<"test">} */
+function solenoid_handler(event_source, event) {
+    /** @type {EventData<"solenoid">} */
     const data = JSON.parse(event.data);
 
-    console.info("test", data);
+    console.info("solenoid", data);
 
     const button = /** @type {HTMLButtonElement} */ (
-        document.getElementById("toggle_test")
+        document.getElementById("toggle_solenoid")
     );
 
     button.disabled = false;
 
-    if (data.enabled) {
-        button.innerText = "Disable Test";
+    if (data.closed) {
+        button.innerText = "Open Solenoid";
     } else {
-        button.innerText = "Enable Test";
+        button.innerText = "Close Solenoid";
     }
 
-    new_events.appendChild(create_event_row("test", data));
+    create_event_row("solenoid", data);
 }
 
 /**
