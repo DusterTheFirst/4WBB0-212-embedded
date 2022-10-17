@@ -1,7 +1,7 @@
 import src.broadcast.channel as broadcast_channel
 import machine
 
-solenoid_pin = machine.Pin(5, mode = machine.Pin.OUT)
+solenoid_pin = machine.Pin(22, mode = machine.Pin.OUT)
 solenoid_pin.init()
 
 def toggle_solenoid(channel: broadcast_channel.BroadcastChannel) :

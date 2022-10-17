@@ -21,7 +21,8 @@ async def main(channel: broadcast_channel.BroadcastChannel):
     print('Setting up web server...')
     asyncio.create_task(asyncio.start_server(lambda reader, writer: web_server.serve_client(reader, writer, channel), "0.0.0.0", 80))
 
-    flow_sensor = machine.Pin(8, mode=machine.Pin.IN, pull=machine.Pin.PULL_DOWN)
+    flow_sensor = machine.Pin(17, mode=machine.Pin.IN, pull=machine.Pin.PULL_DOWN)
+    flow_sensor.init()
     flow_sensor.irq(flow, machine.Pin.IRQ_FALLING, hard=True)
     
     while True:
