@@ -27,10 +27,14 @@ async def serve_client(reader: asyncio.StreamReader, writer: asyncio.StreamWrite
             writer.write(http_response("text/event-stream"))
             await writer.drain()
             await events.handle_events(writer, channel.create_receiver())
-        elif url == "/api/toggle_solenoid":
+        elif url == "/api/solenoid/open":
             writer.write(http_response("text/plain"))
             writer.write("OK")
-            api.toggle_solenoid(channel)
+            api.solenoid(channel, False)
+        elif url == "/api/solenoid/close":
+            writer.write(http_response("text/plain"))
+            writer.write("OK")
+            api.solenoid(channel, True)
         else:
             writer.write(http_response("text/plain", status=(404, "Not Found")))
             writer.write("Not Found")

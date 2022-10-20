@@ -49,6 +49,9 @@ export function establish_connection() {
     event_source.addEventListener("solenoid", (event) =>
         solenoid_handler(event_source, event)
     );
+    event_source.addEventListener("flow", (event) =>
+        flow_handler(event_source, event)
+    );
 }
 
 /**
@@ -126,6 +129,19 @@ function solenoid_handler(event_source, event) {
     }
 
     create_event_row("solenoid", data);
+}
+
+/**
+ * @param {MessageEvent<string>} event
+ * @param {EventSource} event_source
+ */
+ function flow_handler(event_source, event) {
+    /** @type {EventData<"flow">} */
+    const data = JSON.parse(event.data);
+
+    console.info("flow", data);
+
+    create_event_row("flow", data);
 }
 
 /**

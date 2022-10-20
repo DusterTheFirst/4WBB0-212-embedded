@@ -10,4 +10,10 @@ declare interface EventTypes {
     solenoid: {
         closed: boolean;
     };
+    flow: {
+        // Change in flow (litres) since last update
+        delta: number;
+        // Total water flow (litres) since device power on
+        total: number;
+    };
 }

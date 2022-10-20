@@ -5,32 +5,20 @@ import src.web_server as web_server
 import uasyncio as asyncio
 import micropython
 
-onboard = machine.Pin("LED", machine.Pin.OUT)
-
 g_flow_cycles = 0
-total_litres = 0
 
-def flow(pin):
+def flow(_pin):
     global g_flow_cycles
-    g_flow_cycles += 1
+    g_flow_cycles += 1    
 
-async def main(channel: broadcast_channel.BroadcastChannel):
-    print('Setting up Access Point...')
-    access_point.AccessPoint().setup()
 
-    print('Setting up web server...')
-    asyncio.create_task(asyncio.start_server(lambda reader, writer: web_server.serve_client(reader, writer, channel), "0.0.0.0", 80))
+async def flow_meter(channel: broadcast_channel.BroadcastChannel):
+    total_litres: float = 0.0
 
-    flow_sensor = machine.Pin(17, mode=machine.Pin.IN, pull=machine.Pin.PULL_DOWN)
-    flow_sensor.init()
-    flow_sensor.irq(flow, machine.Pin.IRQ_FALLING, hard=True)
-    
     while True:
-        onboard.on()
-        await asyncio.sleep(.5)
-        onboard.off()
-        await asyncio.sleep(1)
+        await asyncio.sleep_ms(250)
 
+        # Flow meter
         global g_flow_cycles
         flow_cycles = g_flow_cycles
         g_flow_cycles = 0
@@ -43,7 +31,45 @@ async def main(channel: broadcast_channel.BroadcastChannel):
         litres_per_minute = freq / 6.6
         litres = litres_per_minute * micropython.const(1 / (60 * 10))
 
-        global total_litres
-        total_litres += litres
+        if litres > 0.0:
+            total_litres += litres
 
-        print(litres, total_litres)
+            print(litres, total_litres)
+
+            channel.broadcast({
+                "event": "flow",
+                "data": {
+                    "delta": litres,
+                    "total": total_litres
+                } 
+            })
+
+
+
+async def main(channel: broadcast_channel.BroadcastChannel):
+    onboard = machine.Pin("LED", machine.Pin.OUT)
+
+    print('Setting up Access Point...')
+    access_point.AccessPoint().setup()
+
+    print('Setting up web server...')
+    asyncio.create_task(asyncio.start_server(lambda reader, writer: web_server.serve_client(reader, writer, channel), "0.0.0.0", 80))
+
+    print("Setting up flow meter...")
+    asyncio.create_task(flow_meter(channel))
+
+    print("Setting up flow meter... IRQ")
+    flow_sensor = machine.Pin(17, mode=machine.Pin.IN, pull=machine.Pin.PULL_DOWN)
+    flow_sensor.init()
+    flow_sensor.irq(flow, machine.Pin.IRQ_FALLING, hard=True)
+    
+    print("done")
+
+    while True:
+        onboard.on()
+        await asyncio.sleep(1)
+        onboard.off()
+        await asyncio.sleep(1)
+
+        
+        

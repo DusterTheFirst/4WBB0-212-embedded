@@ -17,4 +17,5 @@ run `just help` for an overview of the available build commands.
 ### REST
 
 -   GET `/api/health` -> `"OK"`
--   GET `/api/toggle_test` -> `"OK"`
+-   GET `/api/solenoid/open` -> `"OK"`
+-   GET `/api/solenoid/close` -> `"OK"`
