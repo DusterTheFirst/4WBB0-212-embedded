@@ -1,4 +1,4 @@
-# 4WBB0 Group 212 embedded component
+# H2knOw Firmware
 
 ## Developing
 

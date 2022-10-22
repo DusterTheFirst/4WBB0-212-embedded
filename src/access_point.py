@@ -9,7 +9,7 @@ class AccessPoint:
         rp2.country("NL")
 
         print("Enabling WLAN")
-        self.wlan.config(ssid="fauxne", key="fake phone")
+        self.wlan.config(ssid="H2knOw", key="H2knOw")
         self.wlan.active(True)
         # self.wlan.ifconfig(('192.168.0.1', '255.255.255.0', '192.168.0.1', '8.8.8.8'))
 
