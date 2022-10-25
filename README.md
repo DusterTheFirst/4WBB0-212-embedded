@@ -2,9 +2,11 @@
 
 ## Developing
 
--   `just`
--   `mpremote`
--   `mpy-cross`
+Tools needed:
+
+-   [`just`](https://github.com/casey/just#installation)
+-   [`mpremote`](https://pypi.org/project/mpremote/)
+-   [`mpy-cross`](https://pypi.org/project/mpy-cross/)
 
 run `just help` for an overview of the available build commands.
 
